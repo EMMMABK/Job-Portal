@@ -10,60 +10,78 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class HelloController {
+    // Login panel fields
     @FXML
-    private TextField usernameField;
+    private TextField loginUsernameField;
     @FXML
-    private PasswordField passwordField;
+    private PasswordField loginPasswordField;
     @FXML
-    private Label messageLabel;
+    private Label loginMessageLabel;
     @FXML
-    private VBox loginVBox; // Панель для логина
+    private Button loginButton;
     @FXML
-    private VBox registerVBox; // Панель для регистрации
+    private Button switchToRegisterButton;
 
-    private static final Map<String, String> users = new HashMap<>(); // Хранилище пользователей
+    // Register panel fields
+    @FXML
+    private TextField registerUsernameField;
+    @FXML
+    private PasswordField registerPasswordField;
+    @FXML
+    private Label registerMessageLabel;
+    @FXML
+    private Button registerButton;
+    @FXML
+    private Button switchToLoginButton;
+
+    @FXML
+    private VBox loginVBox; // Login panel
+    @FXML
+    private VBox registerVBox; // Register panel
+
+    private static final Map<String, String> users = new HashMap<>(); // User storage
 
     @FXML
     protected void onLoginButtonClick() {
-        String username = usernameField.getText();
-        String password = passwordField.getText();
+        String username = loginUsernameField.getText();
+        String password = loginPasswordField.getText();
 
         if (users.containsKey(username) && users.get(username).equals(password)) {
-            messageLabel.setText("Login successful!");
-            messageLabel.setStyle("-fx-text-fill: green;");
+            loginMessageLabel.setText("Login successful!");
+            loginMessageLabel.setStyle("-fx-text-fill: green;");
         } else {
-            messageLabel.setText("Invalid username or password!");
-            messageLabel.setStyle("-fx-text-fill: red;");
+            loginMessageLabel.setText("Invalid username or password!");
+            loginMessageLabel.setStyle("-fx-text-fill: red;");
         }
     }
 
     @FXML
     protected void onRegisterButtonClick() {
-        String username = usernameField.getText();
-        String password = passwordField.getText();
+        String username = registerUsernameField.getText();
+        String password = registerPasswordField.getText();
 
         if (users.containsKey(username)) {
-            messageLabel.setText("User already exists!");
-            messageLabel.setStyle("-fx-text-fill: red;");
+            registerMessageLabel.setText("User already exists!");
+            registerMessageLabel.setStyle("-fx-text-fill: red;");
         } else if (username.isEmpty() || password.isEmpty()) {
-            messageLabel.setText("Fields cannot be empty!");
-            messageLabel.setStyle("-fx-text-fill: red;");
+            registerMessageLabel.setText("Fields cannot be empty!");
+            registerMessageLabel.setStyle("-fx-text-fill: red;");
         } else {
             users.put(username, password);
-            messageLabel.setText("Registration successful!");
-            messageLabel.setStyle("-fx-text-fill: green;");
+            registerMessageLabel.setText("Registration successful!");
+            registerMessageLabel.setStyle("-fx-text-fill: green;");
         }
     }
 
     @FXML
     protected void onSwitchToRegister() {
-        loginVBox.setVisible(false);  // Скрыть панель логина
-        registerVBox.setVisible(true); // Показать панель регистрации
+        loginVBox.setVisible(false);  // Hide login panel
+        registerVBox.setVisible(true); // Show register panel
     }
 
     @FXML
     protected void onSwitchToLogin() {
-        registerVBox.setVisible(false); // Скрыть панель регистрации
-        loginVBox.setVisible(true); // Показать панель логина
+        registerVBox.setVisible(false); // Hide register panel
+        loginVBox.setVisible(true); // Show login panel
     }
 }
