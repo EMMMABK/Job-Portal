@@ -1,24 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.*?>
 
-<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="org.example.jobportal.HelloController">
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="org.example.jobportal.HelloController"
+      spacing="20" alignment="CENTER" style="-fx-background-color: #f4f4f4; -fx-padding: 30;">
+
     <!-- Login VBox -->
-    <VBox fx:id="loginVBox" spacing="20" alignment="CENTER" visible="true">
-        <TextField fx:id="loginUsernameField" promptText="Username" />
-        <PasswordField fx:id="loginPasswordField" promptText="Password" />
-        <Button fx:id="loginButton" text="Login" onAction="#onLoginButtonClick"/>
-        <Label fx:id="loginMessageLabel" />
-        <Button fx:id="switchToRegisterButton" text="Switch to Register" onAction="#onSwitchToRegister"/>
+    <VBox fx:id="loginVBox" spacing="15" alignment="CENTER" visible="true"
+          style="-fx-padding: 20; -fx-background-color: #ffffff; -fx-background-radius: 10;
+                 -fx-border-color: #cccccc; -fx-border-radius: 10; -fx-border-width: 1;
+                 -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 10, 0, 0, 5);">
+
+        <Label text="Login" style="-fx-font-size: 18px; -fx-font-weight: bold;" />
+        <TextField fx:id="loginUsernameField" promptText="Username"
+                   style="-fx-pref-width: 250px; -fx-font-size: 14px; -fx-padding: 8;" />
+        <PasswordField fx:id="loginPasswordField" promptText="Password"
+                       style="-fx-pref-width: 250px; -fx-font-size: 14px; -fx-padding: 8;" />
+        <Button fx:id="loginButton" text="Login" onAction="#onLoginButtonClick"
+                style="-fx-background-color: #4CAF50; -fx-text-fill: white;
+                       -fx-font-size: 14px; -fx-padding: 8 20; -fx-background-radius: 5;" />
+        <Label fx:id="loginMessageLabel" style="-fx-text-fill: red; -fx-font-size: 12px;" />
+        <Button fx:id="switchToRegisterButton" text="Switch to Register" onAction="#onSwitchToRegister"
+                style="-fx-background-color: transparent; -fx-text-fill: #007BFF; -fx-underline: true;" />
     </VBox>
 
     <!-- Register VBox -->
-    <VBox fx:id="registerVBox" spacing="20" alignment="CENTER" visible="false">
-        <TextField fx:id="registerUsernameField" promptText="Username" />
-        <PasswordField fx:id="registerPasswordField" promptText="Password" />
-        <Button fx:id="registerButton" text="Register" onAction="#onRegisterButtonClick"/>
-        <Label fx:id="registerMessageLabel" />
-        <Button fx:id="switchToLoginButton" text="Switch to Login" onAction="#onSwitchToLogin"/>
+    <VBox fx:id="registerVBox" spacing="15" alignment="CENTER" visible="false"
+          style="-fx-padding: 20; -fx-background-color: #ffffff; -fx-background-radius: 10;
+                 -fx-border-color: #cccccc; -fx-border-radius: 10; -fx-border-width: 1;
+                 -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 10, 0, 0, 5);">
+
+        <Label text="Register" style="-fx-font-size: 18px; -fx-font-weight: bold;" />
+        <TextField fx:id="registerUsernameField" promptText="Username"
+                   style="-fx-pref-width: 250px; -fx-font-size: 14px; -fx-padding: 8;" />
+        <PasswordField fx:id="registerPasswordField" promptText="Password"
+                       style="-fx-pref-width: 250px; -fx-font-size: 14px; -fx-padding: 8;" />
+        <Button fx:id="registerButton" text="Register" onAction="#onRegisterButtonClick"
+                style="-fx-background-color: #4CAF50; -fx-text-fill: white;
+                       -fx-font-size: 14px; -fx-padding: 8 20; -fx-background-radius: 5;" />
+        <Label fx:id="registerMessageLabel" style="-fx-text-fill: red; -fx-font-size: 12px;" />
+        <Button fx:id="switchToLoginButton" text="Switch to Login" onAction="#onSwitchToLogin"
+                style="-fx-background-color: transparent; -fx-text-fill: #007BFF; -fx-underline: true;" />
     </VBox>
+
 </VBox>
