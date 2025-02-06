@@ -1,11 +1,9 @@
 package org.example.jobportal;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.Button;
+import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
+import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,12 +32,23 @@ public class HelloController {
     @FXML
     private Button switchToLoginButton;
 
+    // Panels
     @FXML
-    private VBox loginVBox; // Login panel
+    private VBox loginVBox;
     @FXML
-    private VBox registerVBox; // Register panel
+    private VBox registerVBox;
+    @FXML
+    private VBox helloVBox; // Панель для "Hello World"
+    @FXML
+    private Label helloLabel; // Надпись "Hello World"
 
-    private static final Map<String, String> users = new HashMap<>(); // User storage
+    private static final String USERS_FILE = "users.txt"; // Файл для хранения пользователей
+    private static final Map<String, String> users = new HashMap<>();
+
+    @FXML
+    public void initialize() {
+        loadUsers(); // Загружаем пользователей при запуске
+    }
 
     @FXML
     protected void onLoginButtonClick() {
@@ -49,6 +58,7 @@ public class HelloController {
         if (users.containsKey(username) && users.get(username).equals(password)) {
             loginMessageLabel.setText("Login successful!");
             loginMessageLabel.setStyle("-fx-text-fill: green;");
+            showHelloScreen(username); // Показать "Hello World"
         } else {
             loginMessageLabel.setText("Invalid username or password!");
             loginMessageLabel.setStyle("-fx-text-fill: red;");
@@ -68,6 +78,7 @@ public class HelloController {
             registerMessageLabel.setStyle("-fx-text-fill: red;");
         } else {
             users.put(username, password);
+            saveUsers(); // Сохранить в файл
             registerMessageLabel.setText("Registration successful!");
             registerMessageLabel.setStyle("-fx-text-fill: green;");
         }
@@ -75,13 +86,48 @@ public class HelloController {
 
     @FXML
     protected void onSwitchToRegister() {
-        loginVBox.setVisible(false);  // Hide login panel
-        registerVBox.setVisible(true); // Show register panel
+        loginVBox.setVisible(false);
+        registerVBox.setVisible(true);
     }
 
     @FXML
     protected void onSwitchToLogin() {
-        registerVBox.setVisible(false); // Hide register panel
-        loginVBox.setVisible(true); // Show login panel
+        registerVBox.setVisible(false);
+        loginVBox.setVisible(true);
+    }
+
+    private void showHelloScreen(String username) {
+        loginVBox.setVisible(false);
+        registerVBox.setVisible(false);
+        helloVBox.setVisible(true);
+        helloLabel.setText("Hello, " + username + "!");
+    }
+
+    private void saveUsers() {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(USERS_FILE))) {
+            for (Map.Entry<String, String> entry : users.entrySet()) {
+                writer.write(entry.getKey() + ":" + entry.getValue());
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            System.err.println("Error saving users: " + e.getMessage());
+        }
+    }
+
+    private void loadUsers() {
+        File file = new File(USERS_FILE);
+        if (!file.exists()) return;
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(":");
+                if (parts.length == 2) {
+                    users.put(parts[0], parts[1]);
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Error loading users: " + e.getMessage());
+        }
     }
 }
