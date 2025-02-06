@@ -35,7 +35,11 @@ public class HelloController {
 
     // Job panel fields
     @FXML
-    private VBox helloVBox; // Панель с приветствием
+    private VBox loginVBox;
+    @FXML
+    private VBox registerVBox;
+    @FXML
+    private VBox helloVBox;
     @FXML
     private Label helloLabel;
     @FXML
@@ -101,6 +105,8 @@ public class HelloController {
     protected void onLogoutButtonClick() {
         currentUser = null;
         helloVBox.setVisible(false);
+        loginVBox.setVisible(true);
+        registerVBox.setVisible(false);
         loginUsernameField.clear();
         loginPasswordField.clear();
         loginMessageLabel.setText("");
@@ -108,6 +114,8 @@ public class HelloController {
 
     private void showHelloScreen() {
         helloVBox.setVisible(true);
+        loginVBox.setVisible(false);
+        registerVBox.setVisible(false);
         helloLabel.setText("Hello, " + currentUser + "!");
         updateJobListView();
     }
@@ -203,5 +211,19 @@ public class HelloController {
         } catch (IOException e) {
             System.err.println("Error loading jobs: " + e.getMessage());
         }
+    }
+
+    // Method to switch to the register screen
+    @FXML
+    protected void onSwitchToRegister() {
+        loginVBox.setVisible(false);
+        registerVBox.setVisible(true);
+    }
+
+    // Method to switch to the login screen
+    @FXML
+    protected void onSwitchToLogin() {
+        registerVBox.setVisible(false);
+        loginVBox.setVisible(true);
     }
 }
