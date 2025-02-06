@@ -2,31 +2,30 @@ package org.example.jobportal;
 
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
+import javafx.geometry.Insets;
 
 public class JobDialog {
-
-    public static Job show(Job existingJob) {
+    public static Job show(Job job) {
         Dialog<Job> dialog = new Dialog<>();
-        dialog.setTitle(existingJob == null ? "Создать вакансию" : "Редактировать вакансию");
+        dialog.setTitle(job == null ? "Добавить вакансию" : "Редактировать вакансию");
         dialog.setHeaderText(null);
 
-        // Кнопки
         ButtonType saveButtonType = new ButtonType("Сохранить", ButtonBar.ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().addAll(saveButtonType, ButtonType.CANCEL);
 
-        // Поля формы
         GridPane grid = new GridPane();
-        grid.setVgap(10);
-        grid.setHgap(10);
+        grid.setPadding(new Insets(10, 10, 10, 10));
+        grid.setVgap(5);
+        grid.setHgap(5);
 
-        TextField companyField = new TextField(existingJob != null ? existingJob.getCompany() : "");
-        TextField positionField = new TextField(existingJob != null ? existingJob.getPosition() : "");
-        TextField salaryField = new TextField(existingJob != null ? existingJob.getSalary() : "");
-        TextField locationField = new TextField(existingJob != null ? existingJob.getLocation() : "");
-        TextField responsibilitiesField = new TextField(existingJob != null ? existingJob.getResponsibilities() : "");
-        TextField experienceField = new TextField(existingJob != null ? existingJob.getExperience() : "");
-        TextField certificatesField = new TextField(existingJob != null ? existingJob.getCertificates() : "");
-        TextField phoneField = new TextField(existingJob != null ? existingJob.getPhone() : "");
+        TextField companyField = new TextField(job != null ? job.getCompany() : "");
+        TextField positionField = new TextField(job != null ? job.getPosition() : "");
+        TextField salaryField = new TextField(job != null ? job.getSalary() : "");
+        TextField locationField = new TextField(job != null ? job.getLocation() : "");
+        TextField responsibilitiesField = new TextField(job != null ? job.getResponsibilities() : "");
+        TextField experienceField = new TextField(job != null ? job.getExperience() : "");
+        TextField certificatesField = new TextField(job != null ? job.getCertificates() : "");
+        TextField phoneField = new TextField(job != null ? job.getPhone() : "");
 
         grid.add(new Label("Компания:"), 0, 0);
         grid.add(companyField, 1, 0);
@@ -46,18 +45,12 @@ public class JobDialog {
         grid.add(phoneField, 1, 7);
 
         dialog.getDialogPane().setContent(grid);
-
         dialog.setResultConverter(dialogButton -> {
             if (dialogButton == saveButtonType) {
                 return new Job(
-                        companyField.getText(),
-                        positionField.getText(),
-                        salaryField.getText(),
-                        locationField.getText(),
-                        responsibilitiesField.getText(),
-                        experienceField.getText(),
-                        certificatesField.getText(),
-                        phoneField.getText()
+                        companyField.getText(), positionField.getText(), salaryField.getText(),
+                        locationField.getText(), responsibilitiesField.getText(), experienceField.getText(),
+                        certificatesField.getText(), phoneField.getText()
                 );
             }
             return null;
