@@ -4,8 +4,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import java.io.*;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import org.example.jobportal.JobDialog;
+
 
 public class HelloController {
     // Login panel fields
@@ -32,22 +33,33 @@ public class HelloController {
     @FXML
     private Button switchToLoginButton;
 
-    // Panels
+    // Job panel fields
     @FXML
-    private VBox loginVBox;
+    private VBox helloVBox; // Панель с приветствием
     @FXML
-    private VBox registerVBox;
+    private Label helloLabel;
     @FXML
-    private VBox helloVBox; // Панель для "Hello World"
+    private Button logoutButton;
     @FXML
-    private Label helloLabel; // Надпись "Hello World"
+    private ListView<String> jobListView;
+    @FXML
+    private Button addJobButton;
+    @FXML
+    private Button editJobButton;
+    @FXML
+    private Button deleteJobButton;
 
-    private static final String USERS_FILE = "users.txt"; // Файл для хранения пользователей
+    private static final String USERS_FILE = "users.txt";
+    private static final String JOBS_FILE = "jobs.txt";
     private static final Map<String, String> users = new HashMap<>();
+    private static final List<Job> jobs = new ArrayList<>();
+    private String currentUser;
 
     @FXML
     public void initialize() {
-        loadUsers(); // Загружаем пользователей при запуске
+        loadUsers();
+        loadJobs();
+        updateJobListView();
     }
 
     @FXML
@@ -58,7 +70,8 @@ public class HelloController {
         if (users.containsKey(username) && users.get(username).equals(password)) {
             loginMessageLabel.setText("Login successful!");
             loginMessageLabel.setStyle("-fx-text-fill: green;");
-            showHelloScreen(username); // Показать "Hello World"
+            currentUser = username;
+            showHelloScreen();
         } else {
             loginMessageLabel.setText("Invalid username or password!");
             loginMessageLabel.setStyle("-fx-text-fill: red;");
@@ -78,29 +91,65 @@ public class HelloController {
             registerMessageLabel.setStyle("-fx-text-fill: red;");
         } else {
             users.put(username, password);
-            saveUsers(); // Сохранить в файл
+            saveUsers();
             registerMessageLabel.setText("Registration successful!");
             registerMessageLabel.setStyle("-fx-text-fill: green;");
         }
     }
 
     @FXML
-    protected void onSwitchToRegister() {
-        loginVBox.setVisible(false);
-        registerVBox.setVisible(true);
+    protected void onLogoutButtonClick() {
+        currentUser = null;
+        helloVBox.setVisible(false);
+        loginUsernameField.clear();
+        loginPasswordField.clear();
+        loginMessageLabel.setText("");
+    }
+
+    private void showHelloScreen() {
+        helloVBox.setVisible(true);
+        helloLabel.setText("Hello, " + currentUser + "!");
+        updateJobListView();
     }
 
     @FXML
-    protected void onSwitchToLogin() {
-        registerVBox.setVisible(false);
-        loginVBox.setVisible(true);
+    protected void onAddJobButtonClick() {
+        Job job = JobDialog.show(null);
+        if (job != null) {
+            jobs.add(job);
+            saveJobs();
+            updateJobListView();
+        }
     }
 
-    private void showHelloScreen(String username) {
-        loginVBox.setVisible(false);
-        registerVBox.setVisible(false);
-        helloVBox.setVisible(true);
-        helloLabel.setText("Hello, " + username + "!");
+    @FXML
+    protected void onEditJobButtonClick() {
+        int selectedIndex = jobListView.getSelectionModel().getSelectedIndex();
+        if (selectedIndex >= 0) {
+            Job job = JobDialog.show(jobs.get(selectedIndex));
+            if (job != null) {
+                jobs.set(selectedIndex, job);
+                saveJobs();
+                updateJobListView();
+            }
+        }
+    }
+
+    @FXML
+    protected void onDeleteJobButtonClick() {
+        int selectedIndex = jobListView.getSelectionModel().getSelectedIndex();
+        if (selectedIndex >= 0) {
+            jobs.remove(selectedIndex);
+            saveJobs();
+            updateJobListView();
+        }
+    }
+
+    private void updateJobListView() {
+        jobListView.getItems().clear();
+        for (Job job : jobs) {
+            jobListView.getItems().add(job.toString());
+        }
     }
 
     private void saveUsers() {
@@ -128,6 +177,31 @@ public class HelloController {
             }
         } catch (IOException e) {
             System.err.println("Error loading users: " + e.getMessage());
+        }
+    }
+
+    private void saveJobs() {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(JOBS_FILE))) {
+            for (Job job : jobs) {
+                writer.write(job.serialize());
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            System.err.println("Error saving jobs: " + e.getMessage());
+        }
+    }
+
+    private void loadJobs() {
+        File file = new File(JOBS_FILE);
+        if (!file.exists()) return;
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                jobs.add(Job.deserialize(line));
+            }
+        } catch (IOException e) {
+            System.err.println("Error loading jobs: " + e.getMessage());
         }
     }
 }
