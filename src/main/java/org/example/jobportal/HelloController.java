@@ -5,7 +5,6 @@ import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 
 public class HelloController {
 
@@ -24,7 +23,7 @@ public class HelloController {
     @FXML
     private VBox loginPane, registerPane, jobPane;
 
-    private ObservableList<String> jobs = FXCollections.observableArrayList();
+    private final ObservableList<String> jobs = FXCollections.observableArrayList();
 
     @FXML
     public void initialize() {
@@ -32,7 +31,7 @@ public class HelloController {
     }
 
     @FXML
-    private void handleLogin(ActionEvent event) {
+    private void handleLogin() {
         if (!loginUsername.getText().isEmpty() && !loginPassword.getText().isEmpty()) {
             loginPane.setVisible(false);
             jobPane.setVisible(true);
@@ -42,7 +41,7 @@ public class HelloController {
     }
 
     @FXML
-    private void handleRegister(ActionEvent event) {
+    private void handleRegister() {
         if (!registerUsername.getText().isEmpty() && !registerPassword.getText().isEmpty()) {
             showAlert("Успех", "Регистрация успешна!");
             switchToLogin();
