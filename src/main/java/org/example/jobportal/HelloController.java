@@ -3,227 +3,111 @@ package org.example.jobportal;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
-import java.io.*;
-import java.util.*;
-import org.example.jobportal.JobDialog;
-
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 
 public class HelloController {
-    // Login panel fields
-    @FXML
-    private TextField loginUsernameField;
-    @FXML
-    private PasswordField loginPasswordField;
-    @FXML
-    private Label loginMessageLabel;
-    @FXML
-    private Button loginButton;
-    @FXML
-    private Button switchToRegisterButton;
 
-    // Register panel fields
     @FXML
-    private TextField registerUsernameField;
-    @FXML
-    private PasswordField registerPasswordField;
-    @FXML
-    private Label registerMessageLabel;
-    @FXML
-    private Button registerButton;
-    @FXML
-    private Button switchToLoginButton;
+    private TextField loginUsername, registerUsername, jobTitle, jobSalary;
 
-    // Job panel fields
     @FXML
-    private VBox loginVBox;
-    @FXML
-    private VBox registerVBox;
-    @FXML
-    private VBox helloVBox;
-    @FXML
-    private Label helloLabel;
-    @FXML
-    private Button logoutButton;
-    @FXML
-    private ListView<String> jobListView;
-    @FXML
-    private Button addJobButton;
-    @FXML
-    private Button editJobButton;
-    @FXML
-    private Button deleteJobButton;
+    private PasswordField loginPassword, registerPassword;
 
-    private static final String USERS_FILE = "users.txt";
-    private static final String JOBS_FILE = "jobs.txt";
-    private static final Map<String, String> users = new HashMap<>();
-    private static final List<Job> jobs = new ArrayList<>();
-    private String currentUser;
+    @FXML
+    private TextArea jobResponsibilities, jobCertificates, jobSchedule;
+
+    @FXML
+    private ListView<String> jobList;
+
+    @FXML
+    private VBox loginPane, registerPane, jobPane;
+
+    private ObservableList<String> jobs = FXCollections.observableArrayList();
 
     @FXML
     public void initialize() {
-        loadUsers();
-        loadJobs();
-        updateJobListView();
+        jobList.setItems(jobs);
     }
 
     @FXML
-    protected void onLoginButtonClick() {
-        String username = loginUsernameField.getText();
-        String password = loginPasswordField.getText();
-
-        if (users.containsKey(username) && users.get(username).equals(password)) {
-            loginMessageLabel.setText("Login successful!");
-            loginMessageLabel.setStyle("-fx-text-fill: green;");
-            currentUser = username;
-            showHelloScreen();
+    private void handleLogin(ActionEvent event) {
+        if (!loginUsername.getText().isEmpty() && !loginPassword.getText().isEmpty()) {
+            loginPane.setVisible(false);
+            jobPane.setVisible(true);
         } else {
-            loginMessageLabel.setText("Invalid username or password!");
-            loginMessageLabel.setStyle("-fx-text-fill: red;");
+            showAlert("Ошибка", "Заполните все поля");
         }
     }
 
     @FXML
-    protected void onRegisterButtonClick() {
-        String username = registerUsernameField.getText();
-        String password = registerPasswordField.getText();
-
-        if (users.containsKey(username)) {
-            registerMessageLabel.setText("User already exists!");
-            registerMessageLabel.setStyle("-fx-text-fill: red;");
-        } else if (username.isEmpty() || password.isEmpty()) {
-            registerMessageLabel.setText("Fields cannot be empty!");
-            registerMessageLabel.setStyle("-fx-text-fill: red;");
+    private void handleRegister(ActionEvent event) {
+        if (!registerUsername.getText().isEmpty() && !registerPassword.getText().isEmpty()) {
+            showAlert("Успех", "Регистрация успешна!");
+            switchToLogin();
         } else {
-            users.put(username, password);
-            saveUsers();
-            registerMessageLabel.setText("Registration successful!");
-            registerMessageLabel.setStyle("-fx-text-fill: green;");
+            showAlert("Ошибка", "Заполните все поля");
         }
     }
 
     @FXML
-    protected void onLogoutButtonClick() {
-        currentUser = null;
-        helloVBox.setVisible(false);
-        loginVBox.setVisible(true);
-        registerVBox.setVisible(false);
-        loginUsernameField.clear();
-        loginPasswordField.clear();
-        loginMessageLabel.setText("");
-    }
-
-    private void showHelloScreen() {
-        helloVBox.setVisible(true);
-        loginVBox.setVisible(false);
-        registerVBox.setVisible(false);
-        helloLabel.setText("Hello, " + currentUser + "!");
-        updateJobListView();
+    private void switchToRegister() {
+        loginPane.setVisible(false);
+        registerPane.setVisible(true);
     }
 
     @FXML
-    protected void onAddJobButtonClick() {
-        Job job = JobDialog.show(null);
-        if (job != null) {
-            jobs.add(job);
-            saveJobs();
-            updateJobListView();
+    private void switchToLogin() {
+        registerPane.setVisible(false);
+        loginPane.setVisible(true);
+    }
+
+    @FXML
+    private void createJob() {
+        String title = jobTitle.getText();
+        if (!title.isEmpty()) {
+            jobs.add(title);
+            clearJobFields();
+        } else {
+            showAlert("Ошибка", "Название работы не может быть пустым");
         }
     }
 
     @FXML
-    protected void onEditJobButtonClick() {
-        int selectedIndex = jobListView.getSelectionModel().getSelectedIndex();
+    private void editJob() {
+        int selectedIndex = jobList.getSelectionModel().getSelectedIndex();
         if (selectedIndex >= 0) {
-            Job job = JobDialog.show(jobs.get(selectedIndex));
-            if (job != null) {
-                jobs.set(selectedIndex, job);
-                saveJobs();
-                updateJobListView();
-            }
+            jobs.set(selectedIndex, jobTitle.getText());
+            clearJobFields();
+        } else {
+            showAlert("Ошибка", "Выберите вакансию для редактирования");
         }
     }
 
     @FXML
-    protected void onDeleteJobButtonClick() {
-        int selectedIndex = jobListView.getSelectionModel().getSelectedIndex();
+    private void deleteJob() {
+        int selectedIndex = jobList.getSelectionModel().getSelectedIndex();
         if (selectedIndex >= 0) {
             jobs.remove(selectedIndex);
-            saveJobs();
-            updateJobListView();
+        } else {
+            showAlert("Ошибка", "Выберите вакансию для удаления");
         }
     }
 
-    private void updateJobListView() {
-        jobListView.getItems().clear();
-        for (Job job : jobs) {
-            jobListView.getItems().add(job.toString());
-        }
+    private void clearJobFields() {
+        jobTitle.clear();
+        jobResponsibilities.clear();
+        jobCertificates.clear();
+        jobSchedule.clear();
+        jobSalary.clear();
     }
 
-    private void saveUsers() {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(USERS_FILE))) {
-            for (Map.Entry<String, String> entry : users.entrySet()) {
-                writer.write(entry.getKey() + ":" + entry.getValue());
-                writer.newLine();
-            }
-        } catch (IOException e) {
-            System.err.println("Error saving users: " + e.getMessage());
-        }
-    }
-
-    private void loadUsers() {
-        File file = new File(USERS_FILE);
-        if (!file.exists()) return;
-
-        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] parts = line.split(":");
-                if (parts.length == 2) {
-                    users.put(parts[0], parts[1]);
-                }
-            }
-        } catch (IOException e) {
-            System.err.println("Error loading users: " + e.getMessage());
-        }
-    }
-
-    private void saveJobs() {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(JOBS_FILE))) {
-            for (Job job : jobs) {
-                writer.write(job.serialize());
-                writer.newLine();
-            }
-        } catch (IOException e) {
-            System.err.println("Error saving jobs: " + e.getMessage());
-        }
-    }
-
-    private void loadJobs() {
-        File file = new File(JOBS_FILE);
-        if (!file.exists()) return;
-
-        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                jobs.add(Job.deserialize(line));
-            }
-        } catch (IOException e) {
-            System.err.println("Error loading jobs: " + e.getMessage());
-        }
-    }
-
-    // Method to switch to the register screen
-    @FXML
-    protected void onSwitchToRegister() {
-        loginVBox.setVisible(false);
-        registerVBox.setVisible(true);
-    }
-
-    // Method to switch to the login screen
-    @FXML
-    protected void onSwitchToLogin() {
-        registerVBox.setVisible(false);
-        loginVBox.setVisible(true);
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }

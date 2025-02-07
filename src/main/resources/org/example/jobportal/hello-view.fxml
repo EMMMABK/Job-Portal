@@ -1,51 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<?import javafx.geometry.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="org.example.jobportal.HelloController"
-      spacing="20" alignment="CENTER" style="-fx-background-color: #f4f4f4; -fx-padding: 30;">
+<StackPane xmlns:fx="http://javafx.com/fxml" fx:controller="org.example.jobportal.HelloController">
+    <VBox spacing="10" padding="20">
+        <!-- Login Pane -->
+        <VBox fx:id="loginPane" spacing="10">
+            <Label text="Вход" style="-fx-font-size: 20px;" />
+            <TextField fx:id="loginUsername" promptText="Логин" />
+            <PasswordField fx:id="loginPassword" promptText="Пароль" />
+            <Button text="Войти" onAction="#handleLogin" />
+            <Button text="Регистрация" onAction="#switchToRegister" />
+        </VBox>
 
-    <!-- Login VBox -->
-    <VBox fx:id="loginVBox" spacing="15" alignment="CENTER" visible="true"
-          style="-fx-padding: 20; -fx-background-color: #ffffff; -fx-background-radius: 10;
-                 -fx-border-color: #cccccc; -fx-border-radius: 10; -fx-border-width: 1;
-                 -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 10, 0, 0, 5);">
+        <!-- Register Pane -->
+        <VBox fx:id="registerPane" spacing="10" visible="false">
+            <Label text="Регистрация" style="-fx-font-size: 20px;" />
+            <TextField fx:id="registerUsername" promptText="Логин" />
+            <PasswordField fx:id="registerPassword" promptText="Пароль" />
+            <Button text="Зарегистрироваться" onAction="#handleRegister" />
+            <Button text="Назад" onAction="#switchToLogin" />
+        </VBox>
 
-        <Label text="Login" style="-fx-font-size: 18px; -fx-font-weight: bold;" />
-        <TextField fx:id="loginUsernameField" promptText="Username"
-                   style="-fx-pref-width: 250px; -fx-font-size: 14px; -fx-padding: 8;" />
-        <PasswordField fx:id="loginPasswordField" promptText="Password"
-                       style="-fx-pref-width: 250px; -fx-font-size: 14px; -fx-padding: 8;" />
-        <Button fx:id="loginButton" text="Login" onAction="#onLoginButtonClick"
-                style="-fx-background-color: #4CAF50; -fx-text-fill: white;
-                       -fx-font-size: 14px; -fx-padding: 8 20; -fx-background-radius: 5;" />
-        <Label fx:id="loginMessageLabel" style="-fx-text-fill: red; -fx-font-size: 12px;" />
-        <Button fx:id="switchToRegisterButton" text="Switch to Register" onAction="#onSwitchToRegister"
-                style="-fx-background-color: transparent; -fx-text-fill: #007BFF; -fx-underline: true;" />
+        <!-- Job Management Pane -->
+        <VBox fx:id="jobPane" spacing="10" visible="false">
+            <Label text="Управление вакансиями" style="-fx-font-size: 20px;" />
+            <TextField fx:id="jobTitle" promptText="Название работы" />
+            <TextArea fx:id="jobResponsibilities" promptText="Обязанности" />
+            <TextArea fx:id="jobCertificates" promptText="Необходимые сертификаты" />
+            <TextArea fx:id="jobSchedule" promptText="График работы" />
+            <TextField fx:id="jobSalary" promptText="Зарплата" />
+            <HBox spacing="10">
+                <Button text="Создать вакансию" onAction="#createJob" />
+                <Button text="Редактировать" onAction="#editJob" />
+                <Button text="Удалить" onAction="#deleteJob" />
+            </HBox>
+            <ListView fx:id="jobList" prefHeight="150" />
+        </VBox>
     </VBox>
-
-    <!-- Register VBox -->
-    <VBox fx:id="registerVBox" spacing="15" alignment="CENTER" visible="false"
-          style="-fx-padding: 20; -fx-background-color: #ffffff; -fx-background-radius: 10;
-                 -fx-border-color: #cccccc; -fx-border-radius: 10; -fx-border-width: 1;
-                 -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 10, 0, 0, 5);">
-
-        <Label text="Register" style="-fx-font-size: 18px; -fx-font-weight: bold;" />
-        <TextField fx:id="registerUsernameField" promptText="Username"
-                   style="-fx-pref-width: 250px; -fx-font-size: 14px; -fx-padding: 8;" />
-        <PasswordField fx:id="registerPasswordField" promptText="Password"
-                       style="-fx-pref-width: 250px; -fx-font-size: 14px; -fx-padding: 8;" />
-        <Button fx:id="registerButton" text="Register" onAction="#onRegisterButtonClick"
-                style="-fx-background-color: #4CAF50; -fx-text-fill: white;
-                       -fx-font-size: 14px; -fx-padding: 8 20; -fx-background-radius: 5;" />
-        <Label fx:id="registerMessageLabel" style="-fx-text-fill: red; -fx-font-size: 12px;" />
-        <Button fx:id="switchToLoginButton" text="Switch to Login" onAction="#onSwitchToLogin"
-                style="-fx-background-color: transparent; -fx-text-fill: #007BFF; -fx-underline: true;" />
-    </VBox>
-
-    <VBox fx:id="helloVBox" spacing="15" alignment="CENTER" visible="false">
-        <Label fx:id="helloLabel" text="Hello, User!" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
-    </VBox>
-</VBox>
+</StackPane>
