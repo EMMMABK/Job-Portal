@@ -36,6 +36,7 @@
             <Button text="Create Job" onAction="#createJob" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10px; -fx-background-radius: 20px;"/>
             <Button text="Edit Job" onAction="#editJob" style="-fx-background-color: #FFC107; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10px; -fx-background-radius: 20px;"/>
             <Button text="Delete Job" onAction="#deleteJob" style="-fx-background-color: #F44336; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10px; -fx-background-radius: 20px;"/>
+            <Button text="Logout" onAction="#handleLogout" style="-fx-background-color: #FF5722; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10px; -fx-background-radius: 20px;"/>
         </HBox>
 
         <ListView fx:id="jobList" prefHeight="400" style="-fx-background-color: white; -fx-border-radius: 10px; -fx-background-radius: 10px; -fx-padding: 10px; -fx-border-color: #ccc; -fx-border-width: 1px;"/>

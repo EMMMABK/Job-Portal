@@ -45,32 +45,32 @@ public class HelloController {
     @FXML
     private void handleRegister() {
         if (!registerUsername.getText().isEmpty() && !registerPassword.getText().isEmpty()) {
-            // Successful registration
             showAlert("Success", "Registration successful!");
 
-            // Create a new Stage (window) for the job portal
-            Stage jobPortalStage = new Stage();
-
-            // Create a new VBox for job portal content
-            VBox newJobPane = new VBox();
-            newJobPane.getChildren().add(jobPane); // Add jobPane content to new VBox
-
-            // Create a new scene with the job portal content
-            Scene jobPortalScene = new Scene(newJobPane, 800, 600); // Set window size
-
-            // Set the scene for the new stage
-            jobPortalStage.setScene(jobPortalScene);
-
-            // Show the new job portal window
-            jobPortalStage.setTitle("Job Portal");
-            jobPortalStage.show();
-
-            // Clear registration fields and hide the register pane
-            clearRegisterFields();
             registerPane.setVisible(false);
+
+            jobPane.setVisible(true);
+
+            clearRegisterFields();
         } else {
             showAlert("Error", "Please fill in all fields");
         }
+    }
+
+    @FXML
+    private void handleLogout() {
+        // Hide the job portal view
+        jobPane.setVisible(false);
+
+        // Show the login pane again
+        loginPane.setVisible(true);
+
+        // Clear any previously entered data
+        loginUsername.clear();
+        loginPassword.clear();
+
+        // Optionally, reset other fields like job fields if needed
+        clearJobFields();
     }
 
     @FXML
@@ -91,10 +91,13 @@ public class HelloController {
         if (!title.isEmpty()) {
             jobs.add(title);
             clearJobFields();
+            // Scroll to the top of the list after adding the job
+            jobList.scrollTo(0);
         } else {
             showAlert("Error", "Job title cannot be empty");
         }
     }
+
 
     @FXML
     private void editJob() {
@@ -102,20 +105,26 @@ public class HelloController {
         if (selectedIndex >= 0) {
             jobs.set(selectedIndex, jobTitle.getText());
             clearJobFields();
+            // Scroll to the top of the list after editing the job
+            jobList.scrollTo(0);
         } else {
-            showAlert("Error", "Please select a vacancy to edit");
+            showAlert("Error", "Please select a job to edit");
         }
     }
+
 
     @FXML
     private void deleteJob() {
         int selectedIndex = jobList.getSelectionModel().getSelectedIndex();
         if (selectedIndex >= 0) {
             jobs.remove(selectedIndex);
+            // Scroll to the top of the list after deleting a job
+            jobList.scrollTo(0);
         } else {
-            showAlert("Error", "Please select a vacancy to delete");
+            showAlert("Error", "Please select a job to delete");
         }
     }
+
 
     private void clearJobFields() {
         jobTitle.clear();
