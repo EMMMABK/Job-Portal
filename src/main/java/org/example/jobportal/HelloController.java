@@ -38,7 +38,7 @@ public class HelloController {
             loginPane.setVisible(false);
             jobPane.setVisible(true);
         } else {
-            showAlert("Ошибка", "Заполните все поля");
+            showAlert("Error", "Please fill in all fields");
         }
     }
 
@@ -46,33 +46,32 @@ public class HelloController {
     private void handleRegister() {
         if (!registerUsername.getText().isEmpty() && !registerPassword.getText().isEmpty()) {
             // Successful registration
-            showAlert("Успех", "Регистрация успешна!");
+            showAlert("Success", "Registration successful!");
 
             // Create a new Stage (window) for the job portal
             Stage jobPortalStage = new Stage();
 
-            // Set the content of the new window to jobPane
-            VBox jobPortalContent = new VBox();
-            jobPortalContent.getChildren().add(jobPane); // Add jobPane content to new window
+            // Create a new VBox for job portal content
+            VBox newJobPane = new VBox();
+            newJobPane.getChildren().add(jobPane); // Add jobPane content to new VBox
 
-            Scene jobPortalScene = new Scene(jobPortalContent, 800, 600); // Set window size
+            // Create a new scene with the job portal content
+            Scene jobPortalScene = new Scene(newJobPane, 800, 600); // Set window size
+
+            // Set the scene for the new stage
             jobPortalStage.setScene(jobPortalScene);
 
             // Show the new job portal window
             jobPortalStage.setTitle("Job Portal");
             jobPortalStage.show();
 
-            // Hide the registration pane and show the job portal pane in the new window
-            registerPane.setVisible(false);
-            jobPane.setVisible(true);
-
-            // Clear registration fields
+            // Clear registration fields and hide the register pane
             clearRegisterFields();
+            registerPane.setVisible(false);
         } else {
-            showAlert("Ошибка", "Заполните все поля");
+            showAlert("Error", "Please fill in all fields");
         }
     }
-
 
     @FXML
     private void switchToRegister() {
@@ -93,7 +92,7 @@ public class HelloController {
             jobs.add(title);
             clearJobFields();
         } else {
-            showAlert("Ошибка", "Название работы не может быть пустым");
+            showAlert("Error", "Job title cannot be empty");
         }
     }
 
@@ -104,7 +103,7 @@ public class HelloController {
             jobs.set(selectedIndex, jobTitle.getText());
             clearJobFields();
         } else {
-            showAlert("Ошибка", "Выберите вакансию для редактирования");
+            showAlert("Error", "Please select a vacancy to edit");
         }
     }
 
@@ -114,7 +113,7 @@ public class HelloController {
         if (selectedIndex >= 0) {
             jobs.remove(selectedIndex);
         } else {
-            showAlert("Ошибка", "Выберите вакансию для удаления");
+            showAlert("Error", "Please select a vacancy to delete");
         }
     }
 
