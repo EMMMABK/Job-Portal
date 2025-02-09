@@ -3,15 +3,7 @@
 
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.layout.HBox?>
-
 
 <VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
       fx:controller="org.example.jobportal.HelloController" style="-fx-background-color: linear-gradient(to bottom, #ff7e5f, #feb47b); -fx-padding: 20px;">
@@ -43,6 +35,8 @@
             <Button text="Edit Job" onAction="#editJob" style="-fx-background-color: #FFC107; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10px; -fx-background-radius: 20px;"/>
             <Button text="Delete Job" onAction="#deleteJob" style="-fx-background-color: #F44336; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10px; -fx-background-radius: 20px;"/>
         </HBox>
-        <ListView fx:id="jobList" prefHeight="200"/>
+
+        <ListView fx:id="jobList" prefHeight="300" style="-fx-background-color: white; -fx-border-radius: 10px; -fx-background-radius: 10px; -fx-padding: 10px; -fx-border-color: #ccc; -fx-border-width: 1px;"/>
     </VBox>
 </VBox>
+
