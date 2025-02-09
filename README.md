@@ -102,6 +102,25 @@ job-portal/
 - Enhance user interface with more sophisticated layouts and animations
 - Add a feature for users to apply to job listings
 
+## Contributing
+
+Contributions are welcome! If you'd like to improve the app or fix a bug, feel free to:
+
+1. Fork the repository.
+2. Create a new branch:
+   ```bash
+   git checkout -b feature-name
+   ```
+3. Make your changes and commit them:
+   ```bash
+   git commit -m "Add your message here"
+   ```
+4. Push the branch:
+   ```bash
+   git push origin feature-name
+   ```
+5. Submit a pull request.
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
