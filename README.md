@@ -46,7 +46,8 @@ A simple Job Portal application built using JavaFX. This application allows user
 
 2. **Build the project:**
    
-   You can use your preferred IDE (e.g., IntelliJ IDEA, Eclipse) to open the project.
+    You can use your preferred IDE (e.g., IntelliJ IDEA, Eclipse) to open the project.
+    If you're using IntelliJ, ensure you have JavaFX configured in the project settings. If you encounter issues, please refer to JavaFX setup guide.
 
 3. **Run the Application:**
    
