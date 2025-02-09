@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.HBox?>
@@ -10,6 +9,7 @@
 
     <Label text="Job Portal" style="-fx-font-size: 28px; -fx-text-fill: white; -fx-font-weight: bold;"/>
 
+    <!-- Login Pane -->
     <VBox fx:id="loginPane" spacing="10" style="-fx-background-color: rgba(255, 255, 255, 0.8); -fx-padding: 15px; -fx-border-radius: 10px; -fx-background-radius: 10px;">
         <TextField fx:id="loginUsername" promptText="Username"/>
         <PasswordField fx:id="loginPassword" promptText="Password"/>
@@ -17,6 +17,7 @@
         <Button text="Register" onAction="#switchToRegister" style="-fx-background-color: #008CBA; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10px; -fx-background-radius: 20px;"/>
     </VBox>
 
+    <!-- Registration Pane -->
     <VBox fx:id="registerPane" spacing="10" visible="false" style="-fx-background-color: rgba(255, 255, 255, 0.8); -fx-padding: 15px; -fx-border-radius: 10px; -fx-background-radius: 10px;">
         <TextField fx:id="registerUsername" promptText="Username"/>
         <PasswordField fx:id="registerPassword" promptText="Password"/>
@@ -24,6 +25,7 @@
         <Button text="Back to Login" onAction="#switchToLogin" style="-fx-background-color: #008CBA; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10px; -fx-background-radius: 20px;"/>
     </VBox>
 
+    <!-- Job Pane (Will be shown in a new window after successful registration) -->
     <VBox fx:id="jobPane" spacing="10" visible="false" style="-fx-background-color: rgba(255, 255, 255, 0.8); -fx-padding: 15px; -fx-border-radius: 10px; -fx-background-radius: 10px;">
         <TextField fx:id="jobTitle" promptText="Job Title"/>
         <TextField fx:id="jobSalary" promptText="Salary"/>
@@ -36,7 +38,6 @@
             <Button text="Delete Job" onAction="#deleteJob" style="-fx-background-color: #F44336; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10px; -fx-background-radius: 20px;"/>
         </HBox>
 
-        <ListView fx:id="jobList" prefHeight="300" style="-fx-background-color: white; -fx-border-radius: 10px; -fx-background-radius: 10px; -fx-padding: 10px; -fx-border-color: #ccc; -fx-border-width: 1px;"/>
+        <ListView fx:id="jobList" prefHeight="400" style="-fx-background-color: white; -fx-border-radius: 10px; -fx-background-radius: 10px; -fx-padding: 10px; -fx-border-color: #ccc; -fx-border-width: 1px;"/>
     </VBox>
 </VBox>
-
