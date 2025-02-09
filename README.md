@@ -83,10 +83,11 @@ job-portal/
 │
 ├── src/
 │   ├── org/example/jobportal/       # Source code directory
-│   │   ├── HelloController.java     # Main controller for the application
+│   │   ├── HelloApplication.java
+|   |   |   HelloController.java     # Main controller for the application
 │   │   └── resources/
-│   │       ├── jobportal.fxml       # FXML file for the UI
-│   │       └── style.css            # Custom styles for the application
+│   │       ├── hello-view.fxml       # FXML file for the UI
+│   │                 
 │
 ├── README.md                       # Project documentation
 ├── .gitignore                      # Git ignore file
